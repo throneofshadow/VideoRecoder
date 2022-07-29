@@ -3,7 +3,7 @@
     """
 
 import os
-
+import pdb
 os.chdir('../')
 import cv2
 
@@ -17,11 +17,11 @@ import cv2
 def mkdir(video_path):
     r = True
     if os.path.exists(video_path):
-        os.mkdir(video_path + '/new_videos/')
+        os.mkdir(video_path + 'new_videos/')
     else:
         print('no directory found to store new videos')
         r = False
-    new_video_path = video_path + '/new_videos/'
+    new_video_path = video_path + 'new_videos/'
     return r, new_video_path
 
 
@@ -77,14 +77,14 @@ def uptake_and_recode_video_file(video_path_vector, output_path, new_conditions,
 
 
 class Recode:
-    def __int__(self, video_file_path, conditions=['.mp4'], new_conditions=['.mp4']):
+    def __int__(self):
         self.new_path, self.file_path, self.file_types, self.videos_in_file = None, None, None, None
         self.new_conditions = None
         self.get_path_var()
         self.get_conditions_var()
         self.get_new_conditions_var()
         print('Decoding videos! ')
-        uptake_and_recode_video_file(video_file_path, self.new_path, new_conditions)
+        uptake_and_recode_video_file(self.videos_in_file, self.new_path, self.new_conditions)
         print('Decoding finished!')
 
     def get_path_var(self):
