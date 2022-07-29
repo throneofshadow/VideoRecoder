@@ -21,7 +21,7 @@ def mkdir(video_path):
     else:
         print('no directory found to store new videos')
         r = False
-    new_video_path = video_path+'/new_videos/'
+    new_video_path = video_path + '/new_videos/'
     return r, new_video_path
 
 
@@ -75,4 +75,39 @@ def uptake_and_recode_video_file(video_path_vector, output_path, new_conditions,
         cap.release()
         return
 
+
+class Recode:
+    def __int__(self, video_file_path, conditions=['.mp4'], new_conditions=['.mp4']):
+        self.new_path, self.file_path, self.file_types, self.videos_in_file = None, None, None, None
+        self.new_conditions = None
+        self.get_path_var()
+        self.get_conditions_var()
+        self.get_new_conditions_var()
+        print('Decoding videos! ')
+        uptake_and_recode_video_file(video_file_path, self.new_path, new_conditions)
+        print('Decoding finished!')
+
+    def get_path_var(self):
+        self.file_path = input("Please enter file path for video file path: ")
+        ere, self.new_path = mkdir(self.file_path)
+        if ere:
+            pass
+        else:
+            self.get_path_var()
+
+    def get_conditions_var(self):
+        self.file_types = input("Please enter extension of video you wish to cut: ")
+        self.videos_in_file = get_video_from_path(self.file_path, self.file_types)
+        if len(self.videos_in_file) > 0:
+            print('Found videos.')
+        else:
+            self.get_conditions_var()
+
+    def get_new_conditions_var(self):
+        self.new_conditions = input("Please enter extension you wish to decode into:  ")
+        try:
+            cv2.VideoWriter_fourcc(*str(self.new_conditions))
+        except:
+            print('Incorrect file extension type passed to decoder! ')
+            self.get_new_conditions_var()
 
